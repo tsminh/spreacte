@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#ff5600" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..700&display=swap" rel="stylesheet" />
+
+    <title></title>
+    <style>
+      :root {
+        --ot: env(safe-area-inset-top);
+      }
+      img {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+      html,
+      body {
+        overscroll-behavior: none;
+      }
+      * {
+        margin: 0;
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+      }
+      #root {
+        opacity: 0;
+        transition: 0.5s ease all;
+      }
+      body {
+        overflow-x: hidden;
+      }
+      .center-x {
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      .hide-s {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      .hide-s::-webkit-scrollbar {
+        display: none;
+      }
+      html {
+        background-color: var(--p-c);
+        font-family: "Inter", sans-serif;
+        color: white;
+      }
+      .loader {
+        width: 40px;
+        height: 40px;
+        border: 5px solid #fff;
+        opacity: 0.5;
+        border-bottom-color: transparent;
+        border-radius: 50%;
+        display: inline-block;
+        box-sizing: border-box;
+        animation: rotation 1s linear infinite;
+      }
+
+      @keyframes rotation {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      @font-face {
+        font-family: "number";
+        src: url("%PUBLIC_URL%/number.ttf"); /*URL to font*/
+      }
+    </style>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+
+    <div id="root">
+      <img
+        src="%PUBLIC_URL%/preload.jpg"
+        style="object-fit: cover; display: block; width: var(--vw); height: var(--vh)"
+      />
+    </div>
+
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+  </body>
+</html>
