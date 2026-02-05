@@ -5,8 +5,8 @@ const GlobalContext = createContext<{ ratio: number }>({
   ratio: 1,
 });
 
-export const GlobalContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const { ratio } = useWindowSize();
+export const GlobalContextProvider: React.FC<{ children: ReactNode; width: number }> = ({ children, width }) => {
+  const { ratio } = useWindowSize(width);
   const ctx = useMemo(() => ({ ratio }), [ratio]);
   return <GlobalContext.Provider value={ctx}>{children}</GlobalContext.Provider>;
 };

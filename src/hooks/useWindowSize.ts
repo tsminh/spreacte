@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 
-function useWindowSize() {
+function useWindowSize(designWidth: number) {
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
-    ratio: window.innerWidth / 393,
+    ratio: window.innerWidth / designWidth,
   });
 
   useEffect(() => {
@@ -12,7 +12,7 @@ function useWindowSize() {
       setWindowSize({
         width: window.screen.availWidth,
         height: window.screen.availHeight,
-        ratio: window.screen.availWidth / 393,
+        ratio: window.screen.availWidth / designWidth,
       });
     }
 
@@ -22,7 +22,7 @@ function useWindowSize() {
     handleResize();
 
     return () => window.removeEventListener("resize", handleResize);
-  }, []); // Empty array ensures that effect is only run on mount and unmount
+  }, [designWidth]); // Empty array ensures that effect is only run on mount and unmount
 
   return windowSize;
 }
