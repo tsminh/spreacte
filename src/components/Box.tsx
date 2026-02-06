@@ -12,6 +12,7 @@ type StyleNumberProps = {
   bottom?: number;
   fontSize?: number;
   aspectRatio?: number;
+  borderRadius?: number;
 } & Partial<Record<SpacingKey, number>>;
 
 interface BoxProps extends StyleNumberProps {
@@ -46,7 +47,7 @@ const NON_STYLE_KEYS = new Set(["onClick", "children", "className", "style", "im
 const IGNORED_DOM_KEYS = new Set(["fwidth", "safeAreaTop", "img"]);
 
 const Box: React.FC<BoxProps> = (props) => {
-  const { ratio } = useGlobalContext();
+  const { ratio, imgRootPath } = useGlobalContext();
   const newProps = useMemo(
     () => ({
       style: {
@@ -60,7 +61,9 @@ const Box: React.FC<BoxProps> = (props) => {
         ),
         ...(props.img
           ? {
-              backgroundImage: `url(${process.env.PUBLIC_URL}/img/${props.img})`,
+              backgroundImage: props.img.startsWith("http")
+                ? props.img
+                : `url(${[process.env.PUBLIC_URL, imgRootPath, props.img].filter((e) => !!e).join("/")})`,
               backgroundSize: "cover",
               backgroundRepeat: "no-repeat",
               backgroundPosition: "center",
