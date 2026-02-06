@@ -1,6 +1,6 @@
 {
   "name": "@tsminh/spreacte",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
@@ -8,7 +8,6 @@
     "@fluejs/noscroll": "^1.0.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "react-hot-toast": "^2.6.0",
     "react-router-dom": "6",
     "styled-components": "^6.1.19"
   },
