@@ -22,7 +22,7 @@ export default [
       },
     ],
     plugins: [peerDepsExternal(), resolve(), commonjs(), typescript({ declaration: false }), terser()],
-    external: ["react", "react-dom", ...Object.keys(packageJson.dependencies)],
+    external: ["react", "react-dom", ...Object.keys(packageJson.peerDependencies)],
   },
   {
     input: "src/index.ts",

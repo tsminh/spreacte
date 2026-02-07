@@ -44,7 +44,19 @@ const SPACING_MAP: Record<string, string[]> = {
 };
 
 const NON_STYLE_KEYS = new Set(["onClick", "children", "className", "style", "img", "fwidth", "safeAreaTop"]);
-const IGNORED_DOM_KEYS = new Set(["fwidth", "safeAreaTop", "img"]);
+const IGNORED_DOM_KEYS = new Set(["fwidth", "safeAreaTop", "img", "style"]);
+
+const getImageStyle = ({ img, imgRootPath }: { img?: string; imgRootPath: string }) =>
+  !img
+    ? undefined
+    : {
+        backgroundImage: img.startsWith("http")
+          ? img
+          : `url(${[process.env.PUBLIC_URL, imgRootPath, img].filter((e) => !!e).join("/")})`,
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+      };
 
 const Box: React.FC<BoxProps> = (props) => {
   const { ratio, imgRootPath } = useGlobalContext();
@@ -59,16 +71,7 @@ const Box: React.FC<BoxProps> = (props) => {
               return [[k, v * ratio]];
             }),
         ),
-        ...(props.img
-          ? {
-              backgroundImage: props.img.startsWith("http")
-                ? props.img
-                : `url(${[process.env.PUBLIC_URL, imgRootPath, props.img].filter((e) => !!e).join("/")})`,
-              backgroundSize: "cover",
-              backgroundRepeat: "no-repeat",
-              backgroundPosition: "center",
-            }
-          : undefined),
+        ...getImageStyle({ img: props.img, imgRootPath }),
         ...(props.safeAreaTop ? { top: `calc(var(--ot) + ${(props.top ?? 0) * ratio}px)` } : undefined),
         ...(props.fwidth ? { width: "var(--vw)" } : undefined),
         aspectRatio: props.aspectRatio,
@@ -81,8 +84,11 @@ const Box: React.FC<BoxProps> = (props) => {
           .map(([k, v]) => [k, v]),
       ),
     }),
-    [props, ratio],
+    [imgRootPath, props, ratio],
   );
+
+  console.log(newProps);
+  alert(1);
 
   return <div {...newProps} />;
 };

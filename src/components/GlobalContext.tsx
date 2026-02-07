@@ -1,8 +1,14 @@
 import { createContext, ReactNode, useContext, useEffect, useMemo } from "react";
 import useWindowSize from "../hooks/useWindowSize";
 import { measureWindowSize } from "../utils";
+import { ModalProvider } from "./ModalProvider";
 
-const GlobalContext = createContext<{ ratio: number; imgRootPath?: string }>({
+interface IGlobalContext {
+  ratio: number;
+  imgRootPath: string;
+}
+
+const GlobalContext = createContext<IGlobalContext>({
   ratio: 1,
   imgRootPath: "",
 });
@@ -16,11 +22,18 @@ export const GlobalContextProvider: React.FC<{ children: ReactNode; width: numbe
   const ctx = useMemo(() => ({ ratio, imgRootPath }), [imgRootPath, ratio]);
 
   useEffect(() => {
-    window.addEventListener("resize", measureWindowSize);
     measureWindowSize();
+    window.addEventListener("resize", measureWindowSize);
+    return () => {
+      window.removeEventListener("resize", measureWindowSize);
+    };
   }, []);
 
-  return <GlobalContext.Provider value={ctx}>{children}</GlobalContext.Provider>;
+  return (
+    <GlobalContext.Provider value={ctx}>
+      <ModalProvider>{children}</ModalProvider>
+    </GlobalContext.Provider>
+  );
 };
 
 export const useGlobalContext = () => useContext(GlobalContext);
