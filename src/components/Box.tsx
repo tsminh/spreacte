@@ -13,6 +13,9 @@ type StyleNumberProps = {
   fontSize?: number;
   aspectRatio?: number;
   borderRadius?: number;
+  gap?: number;
+  rowGap?: number;
+  colGap?: number;
 } & Partial<Record<SpacingKey, number>>;
 
 interface BoxProps extends StyleNumberProps {
@@ -86,9 +89,6 @@ const Box: React.FC<BoxProps> = (props) => {
     }),
     [imgRootPath, props, ratio],
   );
-
-  console.log(newProps);
-  alert(1);
 
   return <div {...newProps} />;
 };
