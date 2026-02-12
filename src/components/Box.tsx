@@ -54,7 +54,7 @@ const getImageStyle = ({ img, imgRootPath }: { img?: string; imgRootPath: string
     ? undefined
     : {
         backgroundImage: img.startsWith("http")
-          ? img
+          ? `url(${img})`
           : `url(${[process.env.PUBLIC_URL, imgRootPath, img].filter((e) => !!e).join("/")})`,
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
