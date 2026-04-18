@@ -21,14 +21,6 @@ export const GlobalContextProvider: React.FC<{ children: ReactNode; width: numbe
   const { ratio } = useWindowSize(width);
   const ctx = useMemo(() => ({ ratio, imgRootPath }), [imgRootPath, ratio]);
 
-  useEffect(() => {
-    measureWindowSize();
-    window.addEventListener("resize", measureWindowSize);
-    return () => {
-      window.removeEventListener("resize", measureWindowSize);
-    };
-  }, []);
-
   return (
     <GlobalContext.Provider value={ctx}>
       <ModalProvider>{children}</ModalProvider>

@@ -9,10 +9,13 @@ function useWindowSize(designWidth: number) {
 
   useEffect(() => {
     function handleResize() {
+      const { availWidth: width, availHeight: height } = window.screen;
+      document.documentElement.style.setProperty("--vw", `${width}px`);
+      document.documentElement.style.setProperty("--vh", `${height}px`);
       setWindowSize({
-        width: window.screen.availWidth,
-        height: window.screen.availHeight,
-        ratio: window.screen.availWidth / designWidth,
+        width,
+        height,
+        ratio: width / designWidth,
       });
     }
 
