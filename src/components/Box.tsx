@@ -28,6 +28,7 @@ interface BoxProps extends StyleNumberProps {
   img?: string;
   fwidth?: boolean;
   safeAreaTop?: boolean;
+  safeAreaBottom?: boolean;
 }
 
 const SPACING_MAP: Record<string, string[]> = {
@@ -46,7 +47,16 @@ const SPACING_MAP: Record<string, string[]> = {
   py: ["paddingTop", "paddingBottom"],
 };
 
-const NON_STYLE_KEYS = new Set(["onClick", "children", "className", "style", "img", "fwidth", "safeAreaTop"]);
+const NON_STYLE_KEYS = new Set([
+  "onClick",
+  "children",
+  "className",
+  "style",
+  "img",
+  "fwidth",
+  "safeAreaTop",
+  "safeAreaBottom",
+]);
 const IGNORED_DOM_KEYS = new Set(["fwidth", "safeAreaTop", "img", "style"]);
 
 const getImageStyle = ({ img, imgRootPath }: { img?: string; imgRootPath: string }) =>
@@ -76,6 +86,7 @@ const Box: React.FC<BoxProps> = (props) => {
         ),
         ...getImageStyle({ img: props.img, imgRootPath }),
         ...(props.safeAreaTop ? { top: `calc(var(--ot) + ${(props.top ?? 0) * ratio}px)` } : undefined),
+        ...(props.safeAreaBottom ? { bottom: `calc(var(--ob) + ${(props.bottom ?? 0) * ratio}px)` } : undefined),
         ...(props.fwidth ? { width: "var(--vw)" } : undefined),
         aspectRatio: props.aspectRatio,
         pointerEvents: props.onClick || !props.img ? "all" : ("none" as any),
