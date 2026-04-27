@@ -8,7 +8,6 @@ function useWindowSize(designWidth: number, skip?: boolean) {
   });
 
   useEffect(() => {
-    if (skip) return;
     function handleResize() {
       const { innerWidth: width, innerHeight: height } = window;
       document.documentElement.style.setProperty("--vw", `${width}px`);
@@ -18,6 +17,11 @@ function useWindowSize(designWidth: number, skip?: boolean) {
         height,
         ratio: width / designWidth,
       });
+    }
+
+    if (skip) {
+      handleResize();
+      return;
     }
 
     window.addEventListener("resize", handleResize);
