@@ -1,6 +1,5 @@
-import { createContext, ReactNode, useContext, useEffect, useMemo } from "react";
+import { createContext, ReactNode, useContext, useMemo } from "react";
 import useWindowSize from "../hooks/useWindowSize";
-import { measureWindowSize } from "../utils";
 import { ModalProvider } from "./Modal";
 
 interface IGlobalContext {
@@ -13,13 +12,14 @@ const GlobalContext = createContext<IGlobalContext>({
   imgRootPath: "",
 });
 
-export const GlobalContextProvider: React.FC<{ children: ReactNode; width: number; imgRootPath?: string }> = ({
-  children,
-  width,
-  imgRootPath = "",
-}) => {
-  const { ratio } = useWindowSize(width);
-  const ctx = useMemo(() => ({ ratio, imgRootPath }), [imgRootPath, ratio]);
+export const GlobalContextProvider: React.FC<{
+  children: ReactNode;
+  width: number;
+  imgRootPath?: string;
+  fixedRatio?: boolean;
+}> = ({ children, width, imgRootPath = "", fixedRatio }) => {
+  const { ratio } = useWindowSize(width, fixedRatio);
+  const ctx = useMemo(() => ({ ratio: fixedRatio ? 1 : ratio, imgRootPath }), [fixedRatio, imgRootPath, ratio]);
 
   return (
     <GlobalContext.Provider value={ctx}>

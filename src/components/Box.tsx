@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode, useMemo } from "react";
+import { ButtonHTMLAttributes, CSSProperties, ReactNode, useMemo } from "react";
 import { useGlobalContext } from "./GlobalContext";
 
 type SpacingKey = "mt" | "mb" | "ml" | "mr" | "pt" | "pb" | "pl" | "pr" | "px" | "py" | "mx" | "my";
@@ -19,12 +19,10 @@ type StyleNumberProps = {
 } & Partial<Record<SpacingKey, number>>;
 
 interface BoxProps extends StyleNumberProps {
-  onClick?: () => void;
+  onClick?: (event: ButtonHTMLAttributes<HTMLDivElement>) => void;
   children?: ReactNode;
-
   style?: CSSProperties;
   className?: string;
-
   img?: string;
   fwidth?: boolean;
   safeAreaTop?: boolean;
