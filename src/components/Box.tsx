@@ -91,6 +91,7 @@ const Box: React.FC<BoxProps> = (props) => {
         cursor: props.onClick ? "pointer" : "default",
         ...props.style,
       },
+      ...Object.fromEntries(Object.entries(props).filter(([key]) => key.startsWith("data-"))),
       ...Object.fromEntries(
         Object.entries(props)
           .filter(([k]) => NON_STYLE_KEYS.has(k) && !IGNORED_DOM_KEYS.has(k))
