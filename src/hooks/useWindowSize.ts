@@ -20,7 +20,8 @@ function useWindowSize(designWidth: number, skip?: boolean) {
     }
 
     if (skip) {
-      handleResize();
+      document.documentElement.style.setProperty("--vw", `100vw`);
+      document.documentElement.style.setProperty("--vh", `100vh`);
       return;
     }
 

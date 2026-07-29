@@ -88,6 +88,7 @@ const Box: React.FC<BoxProps> = (props) => {
         ...(props.fwidth ? { width: "var(--vw)" } : undefined),
         aspectRatio: props.aspectRatio,
         pointerEvents: props.onClick || !props.img ? "all" : ("none" as any),
+        cursor: props.onClick ? "pointer" : "default",
         ...props.style,
       },
       ...Object.fromEntries(
