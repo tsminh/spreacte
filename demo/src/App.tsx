@@ -18,6 +18,7 @@ const App: React.FC = () => {
             Fixed ratio:{" "}
             <input type="checkbox" checked={fixedRatio} onChange={(e) => setFixedRatio(e.target.checked)} />
           </div>
+          <div>Width: 360</div>
         </div>
         <DemoContent />
       </div>

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useGlobalContext } from "../components/GlobalContext";
+import PropsEditor from "./PropsEditor";
 
 const downloadJson = (obj: any, filename = "structure.json") => {
   const dataStr = JSON.stringify(obj, null, 2);
@@ -128,6 +129,7 @@ const Editor: React.FC = () => {
       if (!editing) return;
       const target = ev.target as HTMLElement | null;
       if (!target) return;
+      if (target.getAttribute("data-control") === "true") return;
       const el = target.closest("[data-json-path]") as HTMLElement | null;
       if (!el) {
         // clicked outside any editable element -> deselect
@@ -162,29 +164,15 @@ const Editor: React.FC = () => {
     dragState.current = { type: "resize", startX: e.clientX, startY: e.clientY, startRect: rect, path };
   };
 
-  const editProps = () => {
+  const [propsEditorOpen, setPropsEditorOpen] = useState(false);
+
+  useEffect(() => {
+    if (!selected) setPropsEditorOpen(false);
+  }, [selected]);
+
+  const openPropsEditor = () => {
     if (!selected) return;
-    const win = (window as any) || {};
-    const node = win.__spreacte_node_map ? win.__spreacte_node_map[selected] : null;
-    if (!node) return;
-    const current = node.props || {};
-    const next = prompt("Edit JSON props for selected element:", JSON.stringify(current, null, 2));
-    try {
-      if (next) {
-        const parsed = JSON.parse(next);
-        node.props = parsed;
-        // apply quick visual update
-        const el = document.querySelector(attrSelector(selected)) as HTMLElement | null;
-        if (el) {
-          if (parsed.width) el.style.width = `${parsed.width * ratio}px`;
-          if (parsed.height) el.style.height = `${parsed.height * ratio}px`;
-          if (parsed.left) el.style.left = `${parsed.left * ratio}px`;
-          if (parsed.top) el.style.top = `${parsed.top * ratio}px`;
-        }
-      }
-    } catch (err) {
-      alert("Invalid JSON");
-    }
+    setPropsEditorOpen(true);
   };
 
   const handleSave = () => {
@@ -203,9 +191,6 @@ const Editor: React.FC = () => {
         <button onClick={handleSave} style={{ marginRight: 8 }}>
           Save JSON
         </button>
-        <button onClick={editProps} disabled={!selected}>
-          Edit Props
-        </button>
       </div>
       <div
         style={{
@@ -214,7 +199,7 @@ const Editor: React.FC = () => {
           left: 0,
           right: 0,
           bottom: 0,
-          pointerEvents: !editing ? "auto" : "none",
+          pointerEvents: "none",
           zIndex: 99999,
         }}
       >
@@ -233,24 +218,36 @@ const Editor: React.FC = () => {
               }}
             >
               <div
-                onMouseDown={handleResizeMouseDown}
                 style={{
                   position: "absolute",
                   right: -8,
                   bottom: -8,
-                  width: 16,
-                  height: 16,
+                  display: "flex",
                   background: "#fff",
                   border: "2px solid #00f",
                   borderRadius: 2,
-                  cursor: "nwse-resize",
                   pointerEvents: "all",
+                  color: "black",
                 }}
-              />
+              >
+                <div data-control="true" className="spx-edit-control" onClick={openPropsEditor}>
+                  edit props
+                </div>
+                <div
+                  data-control
+                  onMouseDown={handleResizeMouseDown}
+                  style={{
+                    cursor: "nwse-resize",
+                    width: 16,
+                    height: 16,
+                  }}
+                />
+              </div>
             </div>
           </div>
         )}
       </div>
+      {propsEditorOpen && <PropsEditor selected={selected} ratio={ratio} onClose={() => setPropsEditorOpen(false)} />}
     </>
   );
 };
