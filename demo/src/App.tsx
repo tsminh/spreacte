@@ -1,16 +1,13 @@
 import React, { useState } from "react";
 import { GlobalContextProvider } from "@tsminh/spreacte";
+import Editor from "@tsminh/spreacte/dist/esm/editor";
+
 import DemoContent from "./DemoContent";
 
 const App: React.FC = () => {
   const [fixedRatio, setFixedRatio] = useState(false);
   return (
-    <GlobalContextProvider
-      editorConfig={{ savePath: "test" }}
-      fixedRatio={fixedRatio}
-      width={360}
-      imgRootPath="/images"
-    >
+    <GlobalContextProvider fixedRatio={fixedRatio} width={360} imgRootPath="/images">
       <div className="demo-shell">
         <div>
           Config:
@@ -21,6 +18,7 @@ const App: React.FC = () => {
           <div>Width: 360</div>
         </div>
         <DemoContent />
+        {/* <Editor /> */}
       </div>
     </GlobalContextProvider>
   );

@@ -1,17 +1,7 @@
-import { createContext, ReactNode, useContext, useMemo } from "react";
+import React, { ReactNode, useMemo } from "react";
 import useWindowSize from "../hooks/useWindowSize";
 import { ModalProvider } from "./Modal";
-import Editor from "../editor";
-
-interface IGlobalContext {
-  ratio: number;
-  imgRootPath: string;
-}
-
-const GlobalContext = createContext<IGlobalContext>({
-  ratio: 1,
-  imgRootPath: "",
-});
+import GlobalContext from "./GlobalContextCore";
 
 interface IEditor {
   savePath: string;
@@ -29,12 +19,7 @@ export const GlobalContextProvider: React.FC<{
 
   return (
     <GlobalContext.Provider value={ctx}>
-      <ModalProvider>
-        {children}
-        {editorConfig && <Editor />}
-      </ModalProvider>
+      <ModalProvider>{children}</ModalProvider>
     </GlobalContext.Provider>
   );
 };
-
-export const useGlobalContext = () => useContext(GlobalContext);

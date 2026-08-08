@@ -25,6 +25,24 @@ export default [
     external: ["react", "react-dom", ...Object.keys(packageJson.peerDependencies)],
   },
   {
+    input: "src/editor/index.tsx",
+    output: [
+      {
+        file: "dist/cjs/editor.js",
+        format: "cjs",
+        sourcemap: false,
+      },
+      {
+        file: "dist/esm/editor.js",
+        format: "esm",
+        sourcemap: false,
+      },
+    ],
+
+    plugins: [peerDepsExternal(), resolve(), commonjs(), typescript({ declaration: false }), terser()],
+    external: ["react", "react-dom", ...Object.keys(packageJson.peerDependencies)],
+  },
+  {
     input: "src/index.ts",
     output: [{ file: "dist/index.d.ts", format: "es" }],
     plugins: [dts.default()],

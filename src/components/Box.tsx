@@ -1,5 +1,5 @@
 import { ButtonHTMLAttributes, CSSProperties, ReactNode, useMemo } from "react";
-import { useGlobalContext } from "./GlobalContext";
+import { useGlobalContext } from "./GlobalContextCore";
 
 type SpacingKey = "mt" | "mb" | "ml" | "mr" | "pt" | "pb" | "pl" | "pr" | "px" | "py" | "mx" | "my";
 

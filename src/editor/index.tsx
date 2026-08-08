@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useGlobalContext } from "../components/GlobalContext";
+import { useGlobalContext } from "../components/GlobalContextCore";
 import PropsEditor from "./PropsEditor";
 
 const downloadJson = (obj: any, filename = "structure.json") => {
@@ -16,6 +16,7 @@ const downloadJson = (obj: any, filename = "structure.json") => {
 const attrSelector = (path: string) => `[data-json-path="${path}"]`;
 
 const Editor: React.FC = () => {
+  const THIS_IS_BUILD_CHECK = "IF_THIS_IS_IN_BUNDLE_THEN_IT_IS_INCLUDED";
   const { ratio } = useGlobalContext();
   const [editing, setEditing] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
@@ -184,7 +185,7 @@ const Editor: React.FC = () => {
 
   return (
     <>
-      <div style={{ position: "fixed", right: 12, top: 12, zIndex: 100000 }}>
+      <div data-debug={THIS_IS_BUILD_CHECK} style={{ position: "fixed", right: 12, top: 12, zIndex: 100000 }}>
         <button onClick={() => setEditing((s) => !s)} style={{ marginRight: 8 }}>
           {editing ? "Exit Edit" : "Edit"}
         </button>

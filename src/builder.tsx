@@ -1,6 +1,6 @@
 import React from "react";
-import Box from "../components/Box";
-import * as utils from "../utils";
+import Box from "./components/Box";
+import * as utils from "./utils";
 
 interface JsonNode {
   type: string;

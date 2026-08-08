@@ -9,6 +9,7 @@
 /coverage
 
 demo/node_modules
+demo/build
 
 # production
 /build
