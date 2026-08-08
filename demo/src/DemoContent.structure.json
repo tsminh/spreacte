@@ -1,0 +1,50 @@
+{
+  "type": "Box",
+  "props": {
+    "width": 200,
+    "height": 200,
+    "pt": 16,
+    "px": 20,
+    "style": {
+      "background": "#14213d",
+      "borderRadius": 24
+    },
+    "safeAreaTop": true
+  },
+  "children": [
+    {
+      "type": "h1",
+      "props": {},
+      "children": ["spreacte Demo"]
+    },
+    {
+      "type": "p",
+      "props": {},
+      "children": [
+        "Number format: ",
+        {
+          "type": "expression",
+          "value": "utils.numberWithCommas(1234567)"
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "props": {
+        "type": "button"
+      },
+      "children": ["Open Modal"]
+    },
+    {
+      "type": "p",
+      "props": {},
+      "children": [
+        "Dev mode: ",
+        {
+          "type": "expression",
+          "value": "utils.isDev()"
+        }
+      ]
+    }
+  ]
+}
