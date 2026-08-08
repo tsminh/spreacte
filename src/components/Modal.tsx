@@ -100,10 +100,12 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         return (
           <>
             <MaskWrapper
+              data-mask-modal-id={modal.id}
               $state={modal.state}
               style={{ zIndex: BASE_Z_INDEX + index * 2 - 1, pointerEvents: isTop ? "auto" : "none" }}
             />
             <ContentWrapper
+              data-modal-id={modal.id}
               $state={modal.state}
               style={{ zIndex: BASE_Z_INDEX + index * 2, pointerEvents: isTop ? "auto" : "none" }}
             >
