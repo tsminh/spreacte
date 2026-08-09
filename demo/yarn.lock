@@ -1856,6 +1856,11 @@
   resolved "https://registry.yarnpkg.com/@tsconfig/node16/-/node16-1.0.4.tgz#0b92dcc0cc1c81f6f306a381f28e31b1a56536e9"
   integrity sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA==
 
+"@tsminh/spreacte@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@tsminh/spreacte/-/spreacte-1.0.0.tgz#931d28114fd4be7fb562c7981d7c437bdd345c37"
+  integrity sha512-7Wm54r7mU5HqzZbz79/YF5pK6TCVamdA2otVKVJ9PJx1ZmZBAh0B2edkq6bEU7lTI5zUL7ADVPR3VbHIA8Lq4g==
+
 "@types/babel__core@^7.0.0", "@types/babel__core@^7.1.14":
   version "7.20.5"
   resolved "https://registry.yarnpkg.com/@types/babel__core/-/babel__core-7.20.5.tgz#3df15f27ba85319caa07ba08d0721889bb39c017"
