@@ -57,10 +57,26 @@ const createElement = (node: JsonNode | string, key?: number | string, path: str
 
 export default function buildFromJson(structure: JsonNode) {
   const win = typeof window !== "undefined" ? (window as any) : undefined;
+
+  // prefer a saved structure from localStorage when present (so edits persist across reload)
+  let rootStructure = structure;
+  if (typeof window !== "undefined" && window.localStorage) {
+    try {
+      const stored = window.localStorage.getItem("spreacte_root_structure");
+      if (stored) {
+        rootStructure = JSON.parse(stored);
+      }
+    } catch (err) {
+      // ignore parse errors and fall back to provided structure
+      // eslint-disable-next-line no-console
+      console.warn("Failed to parse spreacte_root_structure from localStorage", err);
+    }
+  }
+
   if (win) {
-    win.__spreacte_root_structure = structure;
+    win.__spreacte_root_structure = rootStructure;
     win.__spreacte_node_map = win.__spreacte_node_map || {};
   }
 
-  return createElement(structure, 0, "0");
+  return createElement(rootStructure, 0, "0");
 }

@@ -1,8 +1,12 @@
 :root {
-  color-scheme: dark;
-  color: #fff;
-  background: #0a0f1c;
+  color-scheme: light;
+
+  background: #dadcdf;
   font-family: Inter, system-ui, sans-serif;
+}
+
+button {
+  color: black;
 }
 
 body {
@@ -15,24 +19,4 @@ body {
 
 .demo-shell {
   width: 100%;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-  flex-direction: column;
-}
-
-button {
-  padding: 12px 18px;
-  border: none;
-  border-radius: 999px;
-  background: #fca311;
-  color: #000;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-button:hover {
-  opacity: 0.95;
 }

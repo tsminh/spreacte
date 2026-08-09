@@ -3,11 +3,13 @@
   "props": {
     "width": 200,
     "height": 200,
+    "borderRadius": 20,
     "pt": 16,
     "px": 20,
     "style": {
-      "background": "#14213d",
-      "borderRadius": 24
+      "background": "#fff",
+      "overflow": "hidden",
+      "position": "relative"
     },
     "safeAreaTop": true
   },
@@ -36,8 +38,14 @@
       "children": ["Open Modal"]
     },
     {
-      "type": "p",
-      "props": {},
+      "type": "Box",
+      "props": {
+        "top": 20,
+        "left": 100,
+        "style": {
+          "position": "absolute"
+        }
+      },
       "children": [
         "Dev mode: ",
         {

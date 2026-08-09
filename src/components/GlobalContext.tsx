@@ -12,9 +12,9 @@ export const GlobalContextProvider: React.FC<{
   width: number;
   imgRootPath?: string;
   fixedRatio?: boolean;
-  editorConfig?: IEditor;
-}> = ({ children, width, imgRootPath = "", fixedRatio, editorConfig }) => {
-  const { ratio } = useWindowSize(width, fixedRatio);
+  mockWindowSize?: { width: number; height: number };
+}> = ({ children, width, imgRootPath = "", fixedRatio, mockWindowSize }) => {
+  const { ratio } = useWindowSize(width, fixedRatio, mockWindowSize);
   const ctx = useMemo(() => ({ ratio: fixedRatio ? 1 : ratio, imgRootPath }), [fixedRatio, imgRootPath, ratio]);
 
   return (

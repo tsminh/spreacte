@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 
-function useWindowSize(designWidth: number, skip?: boolean) {
+function useWindowSize(designWidth: number, skip?: boolean, mockWindowSize?: { width: number; height: number }) {
   const [windowSize, setWindowSize] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
-    ratio: window.innerWidth / designWidth,
+    width: mockWindowSize?.width ?? window.innerWidth,
+    height: mockWindowSize?.height ?? window.innerHeight,
+    ratio: (mockWindowSize?.width ?? window.innerWidth) / designWidth,
   });
 
   useEffect(() => {
@@ -19,7 +19,7 @@ function useWindowSize(designWidth: number, skip?: boolean) {
       });
     }
 
-    if (skip) {
+    if (skip || !!mockWindowSize) {
       document.documentElement.style.setProperty("--vw", `100vw`);
       document.documentElement.style.setProperty("--vh", `100vh`);
       return;
@@ -34,7 +34,7 @@ function useWindowSize(designWidth: number, skip?: boolean) {
       if (skip) return;
       window.removeEventListener("resize", handleResize);
     };
-  }, [designWidth, skip]); // Empty array ensures that effect is only run on mount and unmount
+  }, [designWidth, mockWindowSize, skip]);
 
   return windowSize;
 }

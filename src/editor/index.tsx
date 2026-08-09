@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useGlobalContext } from "../components/GlobalContextCore";
 import PropsEditor from "./PropsEditor";
+import LayerManager from "./LayerManager";
+import JSONViewer from "./JSONViewer";
 
 const downloadJson = (obj: any, filename = "structure.json") => {
   const dataStr = JSON.stringify(obj, null, 2);
@@ -193,6 +195,14 @@ const Editor: React.FC = () => {
           Save JSON
         </button>
       </div>
+
+      {editing && (
+        <div style={{ position: "fixed", width: 250, top: 30, left: 0, paddingLeft: 8, background: "white" }}>
+          <LayerManager />
+          <JSONViewer />
+        </div>
+      )}
+
       <div
         style={{
           position: "fixed",

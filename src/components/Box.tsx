@@ -82,6 +82,7 @@ const Box: React.FC<BoxProps> = (props) => {
               return [[k, v * ratio]];
             }),
         ),
+        boxSizing: "border-box",
         ...getImageStyle({ img: props.img, imgRootPath }),
         ...(props.safeAreaTop ? { top: `calc(var(--ot) + ${(props.top ?? 0) * ratio}px)` } : undefined),
         ...(props.safeAreaBottom ? { bottom: `calc(var(--ob) + ${(props.bottom ?? 0) * ratio}px)` } : undefined),
