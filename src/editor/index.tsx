@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useGlobalContext } from "../components/GlobalContextCore";
+import styled from "styled-components";
 import PropsEditor from "./PropsEditor";
 import LayerManager from "./LayerManager";
 import JSONViewer from "./JSONViewer";
+import { Button } from "./components";
 
 const downloadJson = (obj: any, filename = "structure.json") => {
   const dataStr = JSON.stringify(obj, null, 2);
@@ -17,9 +18,33 @@ const downloadJson = (obj: any, filename = "structure.json") => {
 
 const attrSelector = (path: string) => `[data-json-path="${path}"]`;
 
-const Editor: React.FC = () => {
+const ControllerContainer = styled.div`
+  display: flex;
+  position: absolute;
+  right: -8px;
+  bottom: -8px;
+  pointer-events: all;
+
+  > div {
+    width: 16px;
+    height: 16px;
+    background: white;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    svg {
+      pointer-events: none;
+    }
+    &:hover {
+      transform: scale(1.2);
+    }
+  }
+`;
+
+const Editor: React.FC<{ ratio: number }> = ({ ratio }) => {
   const THIS_IS_BUILD_CHECK = "IF_THIS_IS_IN_BUNDLE_THEN_IT_IS_INCLUDED";
-  const { ratio } = useGlobalContext();
+  console.log(ratio);
   const [editing, setEditing] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
   const overlayRef = useRef<HTMLDivElement | null>(null);
@@ -187,13 +212,13 @@ const Editor: React.FC = () => {
 
   return (
     <>
-      <div data-debug={THIS_IS_BUILD_CHECK} style={{ position: "fixed", right: 12, top: 12, zIndex: 100000 }}>
-        <button onClick={() => setEditing((s) => !s)} style={{ marginRight: 8 }}>
+      <div data-debug={THIS_IS_BUILD_CHECK} style={{ position: "fixed", left: 4, top: 2, zIndex: 100000 }}>
+        <Button onClick={() => setEditing((s) => !s)} style={{ marginRight: 8 }}>
           {editing ? "Exit Edit" : "Edit"}
-        </button>
-        <button onClick={handleSave} style={{ marginRight: 8 }}>
+        </Button>
+        <Button onClick={handleSave} style={{ marginRight: 8 }}>
           Save JSON
-        </button>
+        </Button>
       </div>
 
       {editing && (
@@ -228,37 +253,46 @@ const Editor: React.FC = () => {
                 pointerEvents: "none",
               }}
             >
-              <div
-                style={{
-                  position: "absolute",
-                  right: -8,
-                  bottom: -8,
-                  display: "flex",
-                  background: "#fff",
-                  border: "2px solid #00f",
-                  borderRadius: 2,
-                  pointerEvents: "all",
-                  color: "black",
-                }}
-              >
-                <div data-control="true" className="spx-edit-control" onClick={openPropsEditor}>
-                  edit props
+              <ControllerContainer>
+                <div data-control="true" onClick={openPropsEditor}>
+                  <svg width={14} height={14} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                    <g id="SVGRepo_iconCarrier">
+                      <path
+                        d="M18.9445 9.1875L14.9445 5.1875M18.9445 9.1875L13.946 14.1859C13.2873 14.8446 12.4878 15.3646 11.5699 15.5229C10.6431 15.6828 9.49294 15.736 8.94444 15.1875C8.39595 14.639 8.44915 13.4888 8.609 12.562C8.76731 11.6441 9.28735 10.8446 9.946 10.1859L14.9445 5.1875M18.9445 9.1875C18.9445 9.1875 21.9444 6.1875 19.9444 4.1875C17.9444 2.1875 14.9445 5.1875 14.9445 5.1875M20.5 12C20.5 18.5 18.5 20.5 12 20.5C5.5 20.5 3.5 18.5 3.5 12C3.5 5.5 5.5 3.5 12 3.5"
+                        stroke="#000000"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      ></path>{" "}
+                    </g>
+                  </svg>
                 </div>
                 <div
                   data-control
                   onMouseDown={handleResizeMouseDown}
                   style={{
                     cursor: "nwse-resize",
-                    width: 16,
-                    height: 16,
                   }}
-                />
-              </div>
+                >
+                  <svg width={14} height={14} viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" fill="#000000">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                    <g id="SVGRepo_iconCarrier">
+                      <path
+                        fill="var(--ci-primary-color, #000000)"
+                        d="M404.687,212.686l-50.51,50.51L248.805,157.823l50.841-50.843L272.666,80H80V272l27.313,27.314,50.982-50.981L263.667,353.706l-51.313,51.313L239.333,432H432V240ZM400,400H262.627l46.3-46.294L158.295,203.078,112,249.373V112H249.373L203.55,157.823,354.177,308.451,400,262.627Z"
+                      ></path>
+                    </g>
+                  </svg>
+                </div>
+              </ControllerContainer>
             </div>
           </div>
         )}
       </div>
-      {propsEditorOpen && <PropsEditor selected={selected} ratio={ratio} onClose={() => setPropsEditorOpen(false)} />}
+      <PropsEditor selected={selected} ratio={ratio} onClose={() => setPropsEditorOpen(false)} />
     </>
   );
 };

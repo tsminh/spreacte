@@ -16,4 +16,13 @@ export const HeaderSection = styled.div`
   &:hover {
     background: #20202012;
   }
+}
+`;
+
+export const Button = styled.button`
+  border: none;
+  background: white;
+  padding: 4px 8px;
+  height: 24px;
+  border-radius: 8px;
 `;

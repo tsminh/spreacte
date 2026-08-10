@@ -8,20 +8,29 @@
     "px": 20,
     "style": {
       "background": "#fff",
-      "overflow": "hidden",
-      "position": "relative"
+      "overflow": "hidden"
     },
-    "safeAreaTop": true
+    "safeAreaTop": true,
+    "left": 224,
+    "top": 167
   },
   "children": [
     {
       "type": "h1",
-      "props": {},
+      "props": {
+        "left": 290,
+        "top": 253,
+        "fontSize": 50
+      },
       "children": ["spreacte Demo"]
     },
     {
       "type": "p",
-      "props": {},
+      "props": {
+        "left": 290,
+        "top": 303,
+        "fontSize": 24
+      },
       "children": [
         "Number format: ",
         {
@@ -33,17 +42,19 @@
     {
       "type": "button",
       "props": {
-        "type": "button"
+        "type": "button",
+        "left": 290,
+        "top": 355
       },
       "children": ["Open Modal"]
     },
     {
       "type": "Box",
       "props": {
-        "top": 20,
+        "top": -100,
         "left": 100,
         "style": {
-          "position": "absolute"
+          "position": "relative"
         }
       },
       "children": [

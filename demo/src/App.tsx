@@ -1,8 +1,13 @@
 import React, { useState } from "react";
-import { GlobalContextProvider } from "@tsminh/spreacte";
+import { GlobalContextProvider, useGlobalContext } from "@tsminh/spreacte";
 import Editor from "@tsminh/spreacte/dist/esm/editor";
 
 import DemoContent from "./DemoContent";
+
+const EditorContainer = () => {
+  const { ratio } = useGlobalContext();
+  return <Editor ratio={ratio} />;
+};
 
 const App: React.FC = () => {
   const [fixedRatio, setFixedRatio] = useState(false);
@@ -25,7 +30,7 @@ const App: React.FC = () => {
           <DemoContent />
         </GlobalContextProvider>
       </div>
-      <Editor />
+      <EditorContainer />
     </div>
   );
 };
