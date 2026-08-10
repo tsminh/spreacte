@@ -25,7 +25,12 @@ const renderLabel = (node: any, path: string) => {
   );
 };
 
-const LayerManager: React.FC = () => {
+type Props = {
+  onSelect?: (path: string | null) => void;
+  selected?: string | null;
+};
+
+const LayerManager: React.FC<Props> = ({ onSelect, selected }) => {
   const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
 
   const root = (typeof window !== "undefined" ? (window as any).__spreacte_root_structure : null) as JsonNode | null;
@@ -39,17 +44,23 @@ const LayerManager: React.FC = () => {
     return (
       <div key={path} style={{ paddingLeft: 8 }}>
         <div
+          onClick={() => onSelect && onSelect(path)}
           style={{
             display: "flex",
             alignItems: "center",
             gap: 8,
             padding: "4px 6px",
-            cursor: "default",
+            cursor: onSelect ? "pointer" : "default",
+            background: selected === path ? "rgba(24,144,255,0.08)" : "transparent",
+            borderRadius: 4,
           }}
         >
           {children.length > 0 ? (
             <button
-              onClick={() => toggle(path)}
+              onClick={(e) => {
+                e.stopPropagation();
+                toggle(path);
+              }}
               style={{
                 width: 16,
                 height: 16,

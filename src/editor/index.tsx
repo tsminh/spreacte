@@ -223,7 +223,7 @@ const Editor: React.FC<{ ratio: number }> = ({ ratio }) => {
 
       {editing && (
         <div style={{ position: "fixed", width: 250, top: 30, left: 0, paddingLeft: 8, background: "white" }}>
-          <LayerManager />
+          <LayerManager onSelect={setSelected} selected={selected} />
           <JSONViewer />
         </div>
       )}
