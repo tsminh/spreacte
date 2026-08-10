@@ -17,7 +17,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "rollup": "rollup -c --bundleConfigAsCjs",
-    "watch": "rollup -c --bundleConfigAsCjs --watch"
+    "watch": "rollup -c --bundleConfigAsCjs --watch",
+    "link-local": "yarn link && cd demo && yarn link @tsminh/spreacte"
   },
   "eslintConfig": {
     "extends": [

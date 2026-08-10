@@ -20,7 +20,16 @@ const App: React.FC = () => {
         </div>
         <div>Width: 360</div>
       </div>
-      <div style={{ width: 393, height: 650, border: "2px solid", borderRadius: 4, background: "#ffffff76" }}>
+      <div
+        style={{
+          width: 393,
+          height: 650,
+          border: "2px solid",
+          borderRadius: 4,
+          background: "#ffffff76",
+          overflow: "auto",
+        }}
+      >
         <GlobalContextProvider
           mockWindowSize={{ width: 393, height: 650 }}
           fixedRatio={fixedRatio}

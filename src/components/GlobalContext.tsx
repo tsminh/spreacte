@@ -15,7 +15,10 @@ export const GlobalContextProvider: React.FC<{
   mockWindowSize?: { width: number; height: number };
 }> = ({ children, width, imgRootPath = "", fixedRatio, mockWindowSize }) => {
   const { ratio } = useWindowSize(width, fixedRatio, mockWindowSize);
-  const ctx = useMemo(() => ({ ratio: fixedRatio ? 1 : ratio, imgRootPath }), [fixedRatio, imgRootPath, ratio]);
+  const ctx = useMemo(
+    () => ({ ratio: fixedRatio ? 1 : ratio, imgRootPath, isMockedWindowSize: !!mockWindowSize }),
+    [fixedRatio, imgRootPath, ratio, mockWindowSize],
+  );
 
   return (
     <GlobalContext.Provider value={ctx}>

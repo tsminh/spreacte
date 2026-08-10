@@ -1,69 +1,57 @@
 {
   "type": "Box",
   "props": {
-    "width": 200,
-    "height": 200,
-    "borderRadius": 20,
-    "pt": 16,
-    "px": 20,
     "style": {
-      "background": "#fff",
-      "overflow": "hidden"
-    },
-    "safeAreaTop": true,
-    "left": 224,
-    "top": 167
+      "color": "rgb(255, 249, 201)",
+      "overflow": "auto",
+      "position": "relative"
+    }
   },
   "children": [
     {
-      "type": "h1",
-      "props": {
-        "left": 290,
-        "top": 253,
-        "fontSize": 50
-      },
-      "children": ["spreacte Demo"]
-    },
-    {
-      "type": "p",
-      "props": {
-        "left": 290,
-        "top": 303,
-        "fontSize": 24
-      },
-      "children": [
-        "Number format: ",
-        {
-          "type": "expression",
-          "value": "utils.numberWithCommas(1234567)"
-        }
-      ]
-    },
-    {
-      "type": "button",
-      "props": {
-        "type": "button",
-        "left": 290,
-        "top": 355
-      },
-      "children": ["Open Modal"]
-    },
-    {
       "type": "Box",
       "props": {
-        "top": -100,
-        "left": 100,
+        "img": "https://games-dev.yeah1games.vn/atvncg2026-master/img/home_banner.png",
         "style": {
+          "width": "var(--vw)",
+          "height": "var(--vh)",
           "position": "relative"
         }
       },
       "children": [
-        "Dev mode: ",
         {
-          "type": "expression",
-          "value": "utils.isDev()"
+          "type": "Box",
+          "props": {
+            "img": "https://games-dev.yeah1games.vn/atvncg2026-master/img/btn_choi_ngay.png",
+            "className": "center-x",
+            "bottom": -10,
+            "width": 251,
+            "height": 71,
+            "style": {
+              "position": "absolute"
+            }
+          },
+          "children": ["spreacte Demo"]
         }
       ]
+    },
+
+    {
+      "type": "Box",
+      "props": {
+        "height": 400,
+        "fontSize": 24,
+        "p": 24,
+        "style": {
+          "background-color": "white",
+          "text-align": "center",
+          "font-weight": 500,
+          "color": "red",
+
+          "width": "var(--vw)"
+        }
+      },
+      "children": ["THIS IS CONTENT"]
     }
   ]
 }

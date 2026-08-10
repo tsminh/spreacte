@@ -70,7 +70,8 @@ const getImageStyle = ({ img, imgRootPath }: { img?: string; imgRootPath: string
       };
 
 const Box: React.FC<BoxProps> = (props) => {
-  const { ratio, imgRootPath } = useGlobalContext();
+  const { ratio, imgRootPath, isMockedWindowSize } = useGlobalContext();
+
   const newProps = useMemo(
     () => ({
       style: {
@@ -88,7 +89,7 @@ const Box: React.FC<BoxProps> = (props) => {
         ...(props.safeAreaBottom ? { bottom: `calc(var(--ob) + ${(props.bottom ?? 0) * ratio}px)` } : undefined),
         ...(props.fwidth ? { width: "var(--vw)" } : undefined),
         aspectRatio: props.aspectRatio,
-        pointerEvents: props.onClick || !props.img ? "all" : ("none" as any),
+        pointerEvents: isMockedWindowSize || props.onClick || !props.img ? "all" : ("none" as any),
         cursor: props.onClick ? "pointer" : "default",
         ...props.style,
       },

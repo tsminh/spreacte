@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import React, { useEffect, useState } from "react";
 import { Button, HeaderSection } from "./components";
+import { BOX_PROP_KEYS, BOX_PROP_VALUE_SUGGESTIONS } from "./propsEditorConstants";
 
 const attrSelector = (path: string) => `[data-json-path="${path}"]`;
 
@@ -23,6 +24,7 @@ const PropsEditorContainer = styled.div`
 
 const PropsEditor: React.FC<Props> = ({ selected, ratio, onClose }) => {
   const [propsRows, setPropsRows] = useState<Array<{ k: string; v: string }>>([]);
+  const [styleRows, setStyleRows] = useState<Array<{ k: string; v: string }>>([]);
 
   useEffect(() => {
     if (!selected) return;
@@ -30,9 +32,16 @@ const PropsEditor: React.FC<Props> = ({ selected, ratio, onClose }) => {
     const node = win.__spreacte_node_map ? win.__spreacte_node_map[selected] : null;
     if (!node) return;
     const current = node.props || {};
-    const rows = Object.entries(current).map(([k, v]) => ({ k, v: JSON.stringify(v) }));
+    const props = Object.entries(current)
+      .filter(([k]) => k !== "style")
+      .map(([k, v]) => ({ k, v: JSON.stringify(v) }));
+    const style =
+      current.style && typeof current.style === "object"
+        ? Object.entries(current.style).map(([k, v]) => ({ k, v: JSON.stringify(v) }))
+        : [];
     console.log(ratio, node);
-    setPropsRows(rows.length ? rows : [{ k: "", v: "" }]);
+    setPropsRows(props.length ? props : [{ k: "", v: "" }]);
+    setStyleRows(style.length ? style : [{ k: "", v: "" }]);
   }, [ratio, selected]);
 
   const applyPropsToElement = (el: HTMLElement | null, parsed: Record<string, any>) => {
@@ -122,13 +131,24 @@ const PropsEditor: React.FC<Props> = ({ selected, ratio, onClose }) => {
       } catch {
         parsedProps[k] = v;
       }
-      if (k === "style") {
-        parsedProps[k] = {
-          ...parsedProps[k],
-          ...flexLayout,
-        };
+    });
+
+    const parsedStyle: Record<string, any> = {};
+    styleRows.forEach(({ k, v }) => {
+      if (!k) return;
+      try {
+        parsedStyle[k] = JSON.parse(v);
+      } catch {
+        parsedStyle[k] = v;
       }
     });
+
+    if (Object.keys(parsedStyle).length || Object.keys(flexLayout).length) {
+      parsedProps.style = {
+        ...parsedStyle,
+        ...flexLayout,
+      };
+    }
 
     node.props = { ...(node.props || {}), ...parsedProps };
     const el = document.querySelector(attrSelector(selected)) as HTMLElement | null;
@@ -141,7 +161,7 @@ const PropsEditor: React.FC<Props> = ({ selected, ratio, onClose }) => {
 
   // if (!selected) return null;
 
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
 
   return (
     <PropsEditorContainer data-control="true">
@@ -171,21 +191,19 @@ const PropsEditor: React.FC<Props> = ({ selected, ratio, onClose }) => {
         Props Editor
       </HeaderSection>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <div>
-          <Button data-control="true" onClick={savePropsEditor}>
-            Save
-          </Button>
-          <Button data-control="true" onClick={onClose}>
-            Cancel
-          </Button>
-        </div>
+        <Button data-control="true" onClick={savePropsEditor}>
+          Save
+        </Button>
+        <Button data-control="true" onClick={onClose}>
+          Cancel
+        </Button>
       </div>
 
       {collapsed && (
         <div style={{ marginTop: 12, padding: 4 }}>
           {propsRows.map((row, idx) => (
             <div
-              key={idx}
+              key={`prop-${idx}`}
               style={{
                 display: "flex",
                 gap: 8,
@@ -196,6 +214,7 @@ const PropsEditor: React.FC<Props> = ({ selected, ratio, onClose }) => {
               <input
                 data-control="true"
                 placeholder="key"
+                list="box-prop-keys"
                 value={row.k}
                 onChange={(e) => {
                   const next = [...propsRows];
@@ -212,6 +231,7 @@ const PropsEditor: React.FC<Props> = ({ selected, ratio, onClose }) => {
               <input
                 data-control="true"
                 placeholder="value (JSON or raw)"
+                list={BOX_PROP_VALUE_SUGGESTIONS[row.k] ? `box-prop-values-${idx}` : undefined}
                 value={row.v}
                 onChange={(e) => {
                   const next = [...propsRows];
@@ -242,6 +262,13 @@ const PropsEditor: React.FC<Props> = ({ selected, ratio, onClose }) => {
               >
                 ×
               </button>
+              {BOX_PROP_VALUE_SUGGESTIONS[row.k] ? (
+                <datalist id={`box-prop-values-${idx}`}>
+                  {BOX_PROP_VALUE_SUGGESTIONS[row.k].map((value) => (
+                    <option key={value} value={value} />
+                  ))}
+                </datalist>
+              ) : null}
             </div>
           ))}
 
@@ -260,6 +287,92 @@ const PropsEditor: React.FC<Props> = ({ selected, ratio, onClose }) => {
               + Add prop
             </button>
           </div>
+
+          <div style={{ marginTop: 20, paddingTop: 12, borderTop: "1px solid #e9e9e9" }}>
+            <strong>Style</strong>
+            {styleRows.map((row, idx) => (
+              <div
+                key={`style-${idx}`}
+                style={{
+                  display: "flex",
+                  gap: 8,
+                  marginBottom: 8,
+                  alignItems: "center",
+                }}
+              >
+                <input
+                  data-control="true"
+                  placeholder="style key"
+                  value={row.k}
+                  onChange={(e) => {
+                    const next = [...styleRows];
+                    next[idx] = { ...next[idx], k: e.target.value };
+                    setStyleRows(next);
+                  }}
+                  style={{
+                    flex: 1,
+                    padding: "6px 8px",
+                    borderRadius: 8,
+                    border: "1px solid #e9e9e9",
+                  }}
+                />
+                <input
+                  data-control="true"
+                  placeholder="value (JSON or raw)"
+                  value={row.v}
+                  onChange={(e) => {
+                    const next = [...styleRows];
+                    next[idx] = { ...next[idx], v: e.target.value };
+                    setStyleRows(next);
+                  }}
+                  style={{
+                    flex: 1,
+                    padding: "6px 8px",
+                    borderRadius: 8,
+                    border: "1px solid #e9e9e9",
+                  }}
+                />
+                <button
+                  data-control="true"
+                  onClick={() => {
+                    const next = styleRows.filter((_, i) => i !== idx);
+                    setStyleRows(next.length ? next : [{ k: "", v: "" }]);
+                  }}
+                  style={{
+                    flexShrink: 0,
+                    padding: "6px 8px",
+                    borderRadius: 8,
+                    border: "1px solid rgba(0,0,0,0.06)",
+                    background: "transparent",
+                    cursor: "pointer",
+                  }}
+                >
+                  ×
+                </button>
+              </div>
+            ))}
+            <div style={{ marginTop: 8 }}>
+              <button
+                data-control="true"
+                onClick={() => setStyleRows((s) => [...s, { k: "", v: "" }])}
+                style={{
+                  padding: "6px 10px",
+                  borderRadius: 8,
+                  border: "1px solid rgba(0,0,0,0.06)",
+                  background: "transparent",
+                  cursor: "pointer",
+                }}
+              >
+                + Add style
+              </button>
+            </div>
+          </div>
+
+          <datalist id="box-prop-keys">
+            {BOX_PROP_KEYS.map((key) => (
+              <option key={key} value={key} />
+            ))}
+          </datalist>
 
           <section>
             <div>

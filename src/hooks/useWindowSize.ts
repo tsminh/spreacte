@@ -20,6 +20,11 @@ function useWindowSize(designWidth: number, skip?: boolean, mockWindowSize?: { w
     }
 
     if (skip || !!mockWindowSize) {
+      if (mockWindowSize) {
+        document.documentElement.style.setProperty("--vw", `${mockWindowSize.width}px`);
+        document.documentElement.style.setProperty("--vh", `${mockWindowSize.height}px`);
+        return;
+      }
       document.documentElement.style.setProperty("--vw", `100vw`);
       document.documentElement.style.setProperty("--vh", `100vh`);
       return;
