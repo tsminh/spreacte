@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { GlobalContextProvider, useGlobalContext } from "@tsminh/spreacte";
 import Editor from "@tsminh/spreacte/dist/esm/editor";
-
 import DemoContent from "./DemoContent";
 
 const EditorContainer = () => {

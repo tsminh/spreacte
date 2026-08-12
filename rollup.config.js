@@ -4,6 +4,8 @@ import commonjs from "@rollup/plugin-commonjs";
 import typescript from "@rollup/plugin-typescript";
 import dts from "rollup-plugin-dts";
 import terser from "@rollup/plugin-terser";
+import macros from "unplugin-parcel-macros";
+import css from "rollup-plugin-import-css";
 import packageJson from "./package.json" assert { type: "json" };
 
 export default [
@@ -26,20 +28,22 @@ export default [
   },
   {
     input: "src/editor/index.tsx",
-    output: [
-      {
-        file: "dist/cjs/editor.js",
-        format: "cjs",
-        sourcemap: false,
-      },
-      {
-        file: "dist/esm/editor.js",
-        format: "esm",
-        sourcemap: false,
-      },
+    output: {
+      file: "dist/esm/editor.js",
+      format: "esm",
+      sourcemap: false,
+      assetFileNames: "assets/editor[extname]",
+      inlineDynamicImports: true,
+    },
+    plugins: [
+      macros.rollup(),
+      css(),
+      peerDepsExternal(),
+      resolve(),
+      commonjs(),
+      typescript({ declaration: false }),
+      terser(),
     ],
-
-    plugins: [peerDepsExternal(), resolve(), commonjs(), typescript({ declaration: false }), terser()],
     external: ["react", "react-dom", ...Object.keys(packageJson.peerDependencies)],
   },
   {

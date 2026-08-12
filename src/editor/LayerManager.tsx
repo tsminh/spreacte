@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { HeaderSection } from "./components";
+import Layers from "@react-spectrum/s2/icons/Layers";
+import { Accordion, Disclosure, DisclosureHeader, DisclosurePanel, DisclosureTitle } from "@react-spectrum/s2";
 
 type JsonNode = {
   type: string;
@@ -124,32 +126,17 @@ const LayerManager: React.FC<Props> = ({ onSelect, selected }) => {
   }
 
   return (
-    <LayerManagerContainer>
-      <HeaderSection onClick={() => setVis((v) => !v)}>
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-          <g id="SVGRepo_iconCarrier">
-            <path
-              d="M20 10L12 5L4 10L12 15L20 10Z"
-              stroke="#000000"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            ></path>{" "}
-            <path
-              d="M20 14L12 19L4 14"
-              stroke="#000000"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            ></path>
-          </g>
-        </svg>
-        Layers
-      </HeaderSection>
-      {vis && <div style={{ padding: 4 }}>{renderNode(root, "0")}</div>}
-    </LayerManagerContainer>
+    <Disclosure>
+      <DisclosureHeader>
+        <DisclosureTitle>
+          <Layers />
+          Layers
+        </DisclosureTitle>
+      </DisclosureHeader>
+      <DisclosurePanel>
+        <div style={{ padding: 4 }}>{renderNode(root, "0")}</div>
+      </DisclosurePanel>
+    </Disclosure>
   );
 };
 

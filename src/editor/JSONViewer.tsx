@@ -1,35 +1,52 @@
-import { useState } from "react";
-import { HeaderSection } from "./components";
+import React from "react";
+import styled from "styled-components";
+import { Disclosure, DisclosureHeader, DisclosurePanel, DisclosureTitle } from "@react-spectrum/s2";
+import Code from "@react-spectrum/s2/icons/Code";
+
+type JsonNode = {
+  type: string;
+  props?: Record<string, any>;
+  children?: Array<JsonNode | string>;
+  value?: string;
+};
+
+const JsonBlock = styled.pre`
+  margin: 0;
+  padding: 12px;
+  max-height: 300px;
+  overflow: auto;
+  white-space: pre;
+  background: #fafafa;
+  color: #111;
+  border-radius: 0 0 8px 8px;
+  font-size: 13px;
+  line-height: 1.4;
+`;
+
+const EmptyMessage = styled.div`
+  padding: 12px;
+  color: #666;
+`;
 
 const JSONViewer = () => {
   const root = (typeof window !== "undefined" ? (window as any).__spreacte_root_structure : null) as JsonNode | null;
-  const [vis, setVis] = useState(true);
 
   return (
-    <div style={{ background: "white" }}>
-      <HeaderSection onClick={() => setVis((v) => !v)}>
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-          <g id="SVGRepo_iconCarrier">
-            <path
-              d="M14 19H16C17.1046 19 18 18.1046 18 17V14.5616C18 13.6438 18.6246 12.8439 19.5149 12.6213L21.0299 12.2425C21.2823 12.1794 21.2823 11.8206 21.0299 11.7575L19.5149 11.3787C18.6246 11.1561 18 10.3562 18 9.43845V5H14"
-              stroke="#33363F"
-              stroke-width="2"
-            ></path>
-            <path
-              d="M10 5H8C6.89543 5 6 5.89543 6 7V9.43845C6 10.3562 5.37541 11.1561 4.48507 11.3787L2.97014 11.7575C2.71765 11.8206 2.71765 12.1794 2.97014 12.2425L4.48507 12.6213C5.37541 12.8439 6 13.6438 6 14.5616V19H10"
-              stroke="#33363F"
-              stroke-width="2"
-            ></path>
-          </g>
-        </svg>
-        JSON
-      </HeaderSection>
-      {vis && (
-        <div style={{ maxHeight: 300, overflow: "auto", whiteSpace: "pre" }}>{JSON.stringify(root, null, 4)}</div>
-      )}
-    </div>
+    <Disclosure>
+      <DisclosureHeader>
+        <DisclosureTitle>
+          <Code />
+          JSON
+        </DisclosureTitle>
+      </DisclosureHeader>
+      <DisclosurePanel>
+        {root ? (
+          <JsonBlock>{JSON.stringify(root, null, 2)}</JsonBlock>
+        ) : (
+          <EmptyMessage>No JSON structure found</EmptyMessage>
+        )}
+      </DisclosurePanel>
+    </Disclosure>
   );
 };
 

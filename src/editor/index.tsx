@@ -1,9 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
+import Export from "@react-spectrum/s2/icons/Export";
+import { Provider } from "@react-spectrum/s2/Provider";
+import Edit from "@react-spectrum/s2/icons/Edit";
 import PropsEditor from "./PropsEditor";
 import LayerManager from "./LayerManager";
 import JSONViewer from "./JSONViewer";
-import { Button } from "./components";
+import { ActionButton, ActionButtonGroup, Text } from "@react-spectrum/s2";
+import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 
 const downloadJson = (obj: any, filename = "structure.json") => {
   const dataStr = JSON.stringify(obj, null, 2);
@@ -211,22 +215,26 @@ const Editor: React.FC<{ ratio: number }> = ({ ratio }) => {
   };
 
   return (
-    <>
-      <div data-debug={THIS_IS_BUILD_CHECK} style={{ position: "fixed", left: 4, top: 2, zIndex: 100000 }}>
-        <Button onClick={() => setEditing((s) => !s)} style={{ marginRight: 8 }}>
-          {editing ? "Exit Edit" : "Edit"}
-        </Button>
-        <Button onClick={handleSave} style={{ marginRight: 8 }}>
-          Save JSON
-        </Button>
-      </div>
+    <Provider>
+      <div data-debug={THIS_IS_BUILD_CHECK} style={{ position: "fixed", top: 0, left: 0, zIndex: 100000 }}>
+        <div style={{ top: 8, position: "fixed", left: "50%", transform: "translateX(-50%)" }}>
+          <ActionButtonGroup>
+            <ActionButton onPress={() => setEditing((s) => !s)}>
+              <Edit />
+              <Text>{editing ? "Exit Edit" : "Edit"}</Text>
+            </ActionButton>
+            <ActionButton onPress={handleSave}>
+              <Export />
+              <Text>Save JSON</Text>
+            </ActionButton>
+          </ActionButtonGroup>
+        </div>
 
-      {editing && (
-        <div style={{ position: "fixed", width: 250, top: 30, left: 0, paddingLeft: 8, background: "white" }}>
+        <div className={style({ width: 300, backgroundColor: "layer-2", fontFamily: "sans" })}>
           <LayerManager onSelect={setSelected} selected={selected} />
           <JSONViewer />
         </div>
-      )}
+      </div>
 
       <div
         style={{
@@ -293,7 +301,7 @@ const Editor: React.FC<{ ratio: number }> = ({ ratio }) => {
         )}
       </div>
       <PropsEditor selected={selected} ratio={ratio} onClose={() => setPropsEditorOpen(false)} />
-    </>
+    </Provider>
   );
 };
 
