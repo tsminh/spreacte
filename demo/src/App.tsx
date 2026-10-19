@@ -21,24 +21,35 @@ const App: React.FC = () => {
       </div>
       <div
         style={{
-          width: 393,
-          height: 650,
-          border: "2px solid",
-          borderRadius: 4,
-          background: "#ffffff76",
-          overflow: "auto",
+          width: "100vw",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100vh",
+          overflow: "hidden",
         }}
       >
-        <GlobalContextProvider
-          mockWindowSize={{ width: 393, height: 650 }}
-          fixedRatio={fixedRatio}
-          width={360}
-          imgRootPath="/images"
+        <div
+          style={{
+            width: 393,
+            height: 650,
+            border: "2px solid",
+            borderRadius: 4,
+            background: "#ffffff76",
+            overflow: "auto",
+          }}
         >
-          <DemoContent />
-        </GlobalContextProvider>
+          <GlobalContextProvider
+            mockWindowSize={{ width: 393, height: 650 }}
+            fixedRatio={fixedRatio}
+            width={360}
+            imgRootPath="/images"
+          >
+            <DemoContent />
+          </GlobalContextProvider>
+        </div>
+        <EditorContainer />
       </div>
-      <EditorContainer />
     </div>
   );
 };
