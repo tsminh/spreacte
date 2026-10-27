@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Disclosure, DisclosureHeader, DisclosurePanel, DisclosureTitle } from "@react-spectrum/s2";
 import Code from "@react-spectrum/s2/icons/Code";
+import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 
 type JsonNode = {
   type: string;
@@ -32,10 +33,10 @@ const JSONViewer = () => {
   const root = (typeof window !== "undefined" ? (window as any).__spreacte_root_structure : null) as JsonNode | null;
 
   return (
-    <Disclosure>
+    <Disclosure defaultExpanded>
       <DisclosureHeader>
         <DisclosureTitle>
-          <Code />
+          <Code styles={style({ alignSelf: "center" })} />
           JSON
         </DisclosureTitle>
       </DisclosureHeader>

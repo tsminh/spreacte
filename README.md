@@ -1,15 +1,16 @@
 <p align="center">
-  <img src="https://github.com/tsminh/spreacte/raw/docs/banner.png" alt="spreact banner" width="800px" />
+  <img src="https://github.com/tsminh/spreacte/raw/docs/banner.jpeg" alt="spreact banner" width="800px" />
 </p>
 
 <p align="center">
-  <img src="https://github.com/tsminh/spreacte/raw/docs/icon.png" alt="spreact icon" width="120px" height="120px" />
+  <img src="https://github.com/tsminh/spreacte/raw/docs/icon.jpeg" alt="spreact icon" width="120px" height="120px" />
 </p>
 
-<h<p align="center">
-<b>Fast Mobile Landing Pages & Campaigns Built with React + HTML Only</b>
-
-</p>
+<h2>
+   <p align="center">
+      <b>Fast Mobile Landing Pages & Campaigns Built with React + HTML Only</b>
+   </p>
+</h2>
 
 <p align="center">
   <a href="#installation">Installation</a> •

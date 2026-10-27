@@ -1,8 +1,17 @@
 import React, { useState } from "react";
-import styled from "styled-components";
-import { HeaderSection } from "./components";
 import Layers from "@react-spectrum/s2/icons/Layers";
-import { Accordion, Disclosure, DisclosureHeader, DisclosurePanel, DisclosureTitle } from "@react-spectrum/s2";
+import {
+  ActionButton,
+  Disclosure,
+  DisclosureHeader,
+  DisclosurePanel,
+  DisclosureTitle,
+  Text,
+  ToggleButton,
+} from "@react-spectrum/s2";
+import ChevronRight from "@react-spectrum/s2/icons/ChevronRight";
+import ChevronDown from "@react-spectrum/s2/icons/ChevronDown";
+import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 
 type JsonNode = {
   type: string;
@@ -11,17 +20,17 @@ type JsonNode = {
   value?: string;
 };
 
-const LayerManagerContainer = styled.div`
-  max-height: 70vh;
-  overflow: auto;
-  background: #fff;
-`;
-
 const renderLabel = (node: any, path: string) => {
   if (!node) return <span style={{ color: "#999" }}>{path}</span>;
   return (
     <>
-      <strong style={{ marginRight: 6, color: "red" }}>{node.type}</strong>
+      <Text
+        styles={style({
+          fontWeight: "bold",
+        })}
+      >
+        {node.type}
+      </Text>
       <span style={{ color: "#666", fontSize: 12 }}>{`[${path}]`}</span>
     </>
   );
@@ -45,43 +54,30 @@ const LayerManager: React.FC<Props> = ({ onSelect, selected }) => {
 
     return (
       <div key={path} style={{ paddingLeft: 8 }}>
-        <div
-          onClick={() => onSelect && onSelect(path)}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 8,
-            padding: "4px 6px",
-            cursor: onSelect ? "pointer" : "default",
-            background: selected === path ? "rgba(24,144,255,0.08)" : "transparent",
-            borderRadius: 4,
+        <ToggleButton
+          isQuiet
+          size="M"
+          onChange={() => {
+            if (selected === path) onSelect?.(null);
+            else onSelect?.(path);
           }}
+          isSelected={selected === path}
         >
           {children.length > 0 ? (
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
+            <ActionButton
+              size="XS"
+              // isQuiet
+              onPress={() => {
                 toggle(path);
               }}
-              style={{
-                width: 16,
-                height: 16,
-                padding: 0,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: 20,
-                border: "none",
-                background: "none",
-              }}
             >
-              {isCollapsed ? "▸" : "▾"}
-            </button>
+              {isCollapsed ? <ChevronRight /> : <ChevronDown />}
+            </ActionButton>
           ) : (
             <div style={{ width: 22 }} />
           )}
-          <div style={{ flex: 1 }}>{renderLabel(node, path)}</div>
-        </div>
+          <Text>{renderLabel(node, path)}</Text>
+        </ToggleButton>
 
         {!isCollapsed && (
           <div style={{ marginLeft: 12, borderLeft: "1px dashed #eee", paddingLeft: 8 }}>
@@ -102,8 +98,6 @@ const LayerManager: React.FC<Props> = ({ onSelect, selected }) => {
       </div>
     );
   };
-
-  const [vis, setVis] = useState(true);
 
   if (!root) {
     return (
@@ -126,10 +120,10 @@ const LayerManager: React.FC<Props> = ({ onSelect, selected }) => {
   }
 
   return (
-    <Disclosure>
+    <Disclosure defaultExpanded>
       <DisclosureHeader>
         <DisclosureTitle>
-          <Layers />
+          <Layers styles={style({ alignSelf: "center" })} />
           Layers
         </DisclosureTitle>
       </DisclosureHeader>

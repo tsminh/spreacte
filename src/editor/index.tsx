@@ -6,7 +6,7 @@ import Edit from "@react-spectrum/s2/icons/Edit";
 import PropsEditor from "./PropsEditor";
 import LayerManager from "./LayerManager";
 import JSONViewer from "./JSONViewer";
-import { ActionButton, ActionButtonGroup, Text } from "@react-spectrum/s2";
+import { ActionButton, ActionButtonGroup, Text, ToastContainer, ToastQueue } from "@react-spectrum/s2";
 import { style } from "@react-spectrum/s2/style" with { type: "macro" };
 
 const downloadJson = (obj: any, filename = "structure.json") => {
@@ -46,7 +46,7 @@ const ControllerContainer = styled.div`
   }
 `;
 
-const Editor: React.FC<{ ratio: number }> = ({ ratio }) => {
+const Editor: React.FC<{ ratio: number; onUpdate?: (v: any) => {} }> = ({ ratio, onUpdate }) => {
   const THIS_IS_BUILD_CHECK = "IF_THIS_IS_IN_BUNDLE_THEN_IT_IS_INCLUDED";
   console.log(ratio);
   const [editing, setEditing] = useState(false);
@@ -66,9 +66,13 @@ const Editor: React.FC<{ ratio: number }> = ({ ratio }) => {
       if (!el) return;
 
       if (type === "drag") {
-        el.style.transform = `translate(${dx}px, ${dy}px)`;
-        // update overlay to follow transformed element
-        setOverlayRect(el.getBoundingClientRect());
+        if (el.className.includes("center-x")) {
+          ToastQueue.negative(`Element can't be moved since it's controlled by "center-x"`);
+        } else {
+          el.style.transform = `translate(${dx}px, ${dy}px)`;
+          // update overlay to follow transformed element
+          setOverlayRect(el.getBoundingClientRect());
+        }
       }
 
       if (type === "resize") {
@@ -96,7 +100,7 @@ const Editor: React.FC<{ ratio: number }> = ({ ratio }) => {
           // compute numeric props using ratio
           const left = (startRect.left + dx - (el.offsetParent as HTMLElement)?.getBoundingClientRect().left) / ratio;
           const top = (startRect.top + dy - (el.offsetParent as HTMLElement)?.getBoundingClientRect().top) / ratio;
-          if (node) {
+          if (node && ["absolute", "relative", "fixed"].includes(node.props.style.position)) {
             node.props = node.props || {};
             node.props.left = Math.round(left);
             node.props.top = Math.round(top);
@@ -215,22 +219,39 @@ const Editor: React.FC<{ ratio: number }> = ({ ratio }) => {
   };
 
   return (
-    <Provider>
+    <Provider colorScheme="dark">
       <div data-debug={THIS_IS_BUILD_CHECK} style={{ position: "fixed", top: 0, left: 0, zIndex: 100000 }}>
-        <div style={{ top: 8, position: "fixed", left: "50%", transform: "translateX(-50%)" }}>
+        <div
+          className={style({
+            backgroundColor: "layer-1",
+            paddingX: 4,
+            paddingY: 2,
+            borderRadius: "lg",
+          })}
+          style={{ top: 8, position: "fixed", left: "50%", transform: "translateX(-50%)" }}
+        >
           <ActionButtonGroup>
-            <ActionButton onPress={() => setEditing((s) => !s)}>
+            <ActionButton isQuiet>
+              <Text>File</Text>
+            </ActionButton>
+            <ActionButton isQuiet onPress={() => setEditing((s) => !s)}>
               <Edit />
               <Text>{editing ? "Exit Edit" : "Edit"}</Text>
             </ActionButton>
-            <ActionButton onPress={handleSave}>
+            <ActionButton isQuiet onPress={handleSave}>
               <Export />
               <Text>Save JSON</Text>
             </ActionButton>
           </ActionButtonGroup>
         </div>
 
-        <div className={style({ width: 300, backgroundColor: "layer-2", fontFamily: "sans" })}>
+        <div
+          className={style({
+            width: 300,
+            backgroundColor: "layer-2",
+            fontFamily: "sans",
+          })}
+        >
           <LayerManager onSelect={setSelected} selected={selected} />
           <JSONViewer />
         </div>
@@ -301,6 +322,7 @@ const Editor: React.FC<{ ratio: number }> = ({ ratio }) => {
         )}
       </div>
       <PropsEditor selected={selected} ratio={ratio} onClose={() => setPropsEditorOpen(false)} />
+      <ToastContainer />
     </Provider>
   );
 };
