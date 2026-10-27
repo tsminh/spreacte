@@ -1,46 +1,37 @@
-# spreacte
+<p align="center">
+  <img src="https://github.com/tsminh/spreacte/raw/docs/banner.png" alt="spreact banner" width="800px" />
+</p>
 
-## Demo
+<p align="center">
+  <img src="https://github.com/tsminh/spreacte/raw/docs/icon.png" alt="spreact icon" width="120px" height="120px" />
+</p>
 
-A simple demo app is available in the `demo/` directory. The demo is configured with Create React App and CRACO so it can resolve the local module source.
+<h<p align="center">
+<b>Fast Mobile Landing Pages & Campaigns Built with React + HTML Only</b>
 
-### Setup
+</p>
 
-1. From `d:\REPO\spreacte` install root dependencies:
-   - `yarn install`
-2. From `d:\REPO\spreacte\demo` install demo dependencies:
-   - `yarn install`
+<p align="center">
+  <a href="#installation">Installation</a> •
+  <a href="#quick-start">Quick Start</a> •
+  <a href="#how-it-works">How It Works</a> •
+  <a href="#license">License</a>
+</p>
 
-### Run the demo
+---
 
-1. In one terminal, start the root package watcher to rebuild local module changes:
-   - `yarn watch`
-2. In another terminal, start the demo app:
-   - `cd demo && yarn start`
+## 🚀 What is spreact?
 
-### Local development workflow
+**spreact** is a lightweight, high-performance library inspired by PixiJS architecture, built exclusively with **React and standard HTML** elements/DOM. It is tailor-made for developers and marketers who need to spin up blazing-fast, interactive mobile landing pages and promotional campaigns without heavy WebGL/canvas dependencies or bulky runtimes.
 
-- Edit source code in `src/` at the root package.
-- The root watcher rebuilds the package output.
-- CRA in `demo/` is configured to import the local module source and should reload when the demo file tree changes.
+---
 
-### Optional: yarn link workflow
+## 📦 Installation
 
-1. In `d:\REPO\spreacte` run:
-   - `yarn link`
-2. In `d:\REPO\spreacte\demo` run:
-   - `yarn link "@tsminh/spreacte"`
-3. Start the demo:
-   - `cd demo && yarn start`
+Clone the repository and install dependencies using your preferred package manager:
 
-When you are done, unlink with:
-
-- `yarn unlink "@tsminh/spreacte"` in `demo`
-- `yarn unlink` in root
-
-### What the demo shows
-
-- `GlobalContextProvider` wrapping consumer content
-- `Box` component layout and responsive sizing
-- `useModal` hook to open and close a modal
-- `utils.numberWithCommas` and `utils.isDev` usage
+```bash
+git clone [https://github.com/tsminh/spreacte.git](https://github.com/tsminh/spreacte.git)
+cd spreacte
+npm install
+```
