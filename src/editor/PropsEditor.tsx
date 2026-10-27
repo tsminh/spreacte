@@ -79,6 +79,8 @@ const PropsEditor: React.FC<Props> = ({ selected, ratio, onClose }) => {
       "aspectRatio",
     ]);
 
+    console.log(parsed);
+
     if (parsed.style && typeof parsed.style === "object") {
       Object.entries(parsed.style).forEach(([k, v]) => {
         if (typeof v === "number")
@@ -116,7 +118,10 @@ const PropsEditor: React.FC<Props> = ({ selected, ratio, onClose }) => {
         return;
       }
       try {
-        if (typeof v === "string") el.setAttribute(k, v);
+        if (typeof v === "string") {
+          el.setAttribute(k, v);
+          if (k === "img") el.style.setProperty("background-image", `url(${v})`);
+        }
       } catch (err) {}
     });
   };
@@ -159,6 +164,13 @@ const PropsEditor: React.FC<Props> = ({ selected, ratio, onClose }) => {
     applyPropsToElement(el, parsedProps);
     onClose();
     if (el) el.getBoundingClientRect();
+    // window.postMessage({
+    //   type: "LAYER",
+    //   data: {
+    //     userId: "12345",
+    //     theme: "dark",
+    //   },
+    // });
   };
 
   const [flexLayout, setFlexLayout] = useState({});
@@ -189,10 +201,10 @@ const PropsEditor: React.FC<Props> = ({ selected, ratio, onClose }) => {
 
         <DisclosurePanel>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <Button data-control="true" onClick={savePropsEditor}>
+            <Button data-control="true" onPress={savePropsEditor}>
               Save
             </Button>
-            <Button data-control="true" onClick={onClose}>
+            <Button data-control="true" onPress={onClose}>
               Cancel
             </Button>
           </div>
@@ -214,9 +226,9 @@ const PropsEditor: React.FC<Props> = ({ selected, ratio, onClose }) => {
                     placeholder="key"
                     allowsCustomValue
                     inputValue={row.k}
-                    onInputChange={(e) => {
+                    onInputChange={(k) => {
                       const next = [...propsRows];
-                      next[idx] = { ...next[idx], k: e.target.value };
+                      next[idx] = { ...next[idx], k };
                       setPropsRows(next);
                     }}
                     styles={style({
@@ -229,12 +241,13 @@ const PropsEditor: React.FC<Props> = ({ selected, ratio, onClose }) => {
                     ))}
                   </ComboBox>
                   <ComboBox
+                    allowsCustomValue
                     data-control="true"
                     placeholder="value (JSON or raw)"
                     inputValue={row.v}
-                    onInputChange={(e) => {
+                    onInputChange={(v) => {
                       const next = [...propsRows];
-                      next[idx] = { ...next[idx], v: e.target.value };
+                      next[idx] = { ...next[idx], v };
                       setPropsRows(next);
                     }}
                     styles={style({

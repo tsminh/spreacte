@@ -27,6 +27,7 @@ const App: React.FC = () => {
           justifyContent: "center",
           height: "100vh",
           overflow: "hidden",
+          background: "black",
         }}
       >
         <div

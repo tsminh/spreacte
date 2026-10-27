@@ -1,9 +1,9 @@
 <p align="center">
-  <img src="https://github.com/tsminh/spreacte/raw/docs/banner.jpeg" alt="spreact banner" width="800px" />
+  <img src="https://raw.githubusercontent.com/tsminh/spreacte/main/docs/banner.jpeg" alt="spreact banner" width="800px" />
 </p>
 
 <p align="center">
-  <img src="https://github.com/tsminh/spreacte/raw/docs/icon.jpeg" alt="spreact icon" width="120px" height="120px" />
+  <img src="https://raw.githubusercontent.com/tsminh/spreacte/main/docs/logo.jpeg" alt="spreact icon" width="120px" height="120px" />
 </p>
 
 <h2>

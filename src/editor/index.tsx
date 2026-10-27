@@ -165,7 +165,9 @@ const Editor: React.FC<{ ratio: number; onUpdate?: (v: any) => {} }> = ({ ratio,
       if (!editing) return;
       const target = ev.target as HTMLElement | null;
       if (!target) return;
-      if (target.getAttribute("data-control") === "true") return;
+      console.log(target);
+
+      if (target.closest("[data-control]")) return;
       const el = target.closest("[data-json-path]") as HTMLElement | null;
       if (!el) {
         // clicked outside any editable element -> deselect
